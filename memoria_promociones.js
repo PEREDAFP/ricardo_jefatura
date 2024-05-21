@@ -1,3 +1,11 @@
+//Resultados por áreas, materias, ámbitos, módulos
+/*
+Los datos se obtienen de la hoja de cálculo con la estructura
+DAT	LOCALIDAD	DISTRITO	GENERICO CENTRO	CODIGO CENTRO	CENTRO	ETAPA	NIVEL	CURSO	GRUPO	ROL	MATERIA	MATRICULADOS EN MATERIA	Nº APROBADOS EN MATERIA	PORCENTAJE APROBADOS
+Que hemos llamado aprobados materia con porcentaje
+
+*/
+
 const datos = [
     {
         'grupo': "SMR1A",
