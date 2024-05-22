@@ -1,3 +1,4 @@
+
 /*
 PAra estadísticas de claustro
 debe devolver 
@@ -11,7 +12,7 @@ const alumnos = [
     ['6','1SMRA',1,'Matemáticas'],
     ['7','1SMRA','NO AP','Sociedad'],
     ['6','1SMRA',1,'Matemáticas'],
-    ['7','1SMRA',7,'Ciencias'],
+    ['17','1SMRA',7,'Ciencias'],
     ['7','1SMRA',3,'SOM'],
     ['7','1SMRA',3,'SOM'],
     ['7','1SMRA','NO AP','Sociedad'],
@@ -23,7 +24,8 @@ const alumnos = [
     ['7','1SMRA',3,'SOM'],
     ['8','1SMRB',3,'SOM'],
     ['8','1SMRB',2,'Matemáticas'],
-    ['8','1SMRC',8,'Matemáticas'],
+    ['18','1SMRC',8,'Matemáticas'],
+    ['19','1SMRC',8,'Matemáticas'],
 ] 
 //Obtenemos el número de alumnos por grupo
 const alumnosPorGrupo = Array.from(new Set(
@@ -40,7 +42,7 @@ const alumnosPorGrupo = Array.from(new Set(
 
 //Ahora obtenemos los suspensos por grupo
 //Eliminamos los duplicados y tenemos en cuenta otros valores de suspenso además de los numéricos
-const suspensosPorAlumno = Object.entries(Array.from(new Set( 
+const suspensosPorGrupo = Object.entries(Array.from(new Set( 
                 alumnos  //Obtenemos los suspensos
                     .filter((el)=> (el[2] < 5 || valoresSupensos.filter(dato => dato == el[2]).length >0)  && el[2] !== '' )
                     .map(el=>{
@@ -78,7 +80,23 @@ const suspensosPorAlumno = Object.entries(Array.from(new Set(
                     return acc;
                   }, [])
 
-console.log(suspensosPorAlumno)
+//Obtenemos los grupos que no tienen suspensos                 
+const tienenSuspensos = Object.keys(suspensosPorGrupo)
+const notieneSuspensos = Object.keys(alumnosPorGrupo)
+                        .filter(el => !tienenSuspensos.includes(el))
+                        .map(el=> {return {grupo:el, suspensos1:0, suspensos2:0, suspensos3:0, apruebaTodo:alumnosPorGrupo[el]}})    
 
-alumnosPorGrupo.map(el=>{console.log('hola')})
-console.log(alumnosPorGrupo)          
+//Ahora modificamos el número de alumnos que aprueban todo
+const final = Array.from(Object.values(suspensosPorGrupo))
+.map(el=>{
+    const apruebaTodo = el.totalAlumnos - (el.suspensos1 + el. suspensos2 + el.suspensos3)
+    return {
+        ...el,
+        apruebaTodo
+    }
+})
+//Lo ordenamos alfabéticamente por grupo
+notieneSuspensos.forEach(el=>final.push(el))
+
+console.log(final.sort((a,b)=> a.grupo > b.grupo ? 1 : -1))
+//console.log(notieneSuspensos)
